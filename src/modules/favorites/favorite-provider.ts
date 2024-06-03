@@ -3,7 +3,7 @@ import { FavoriteWordSchema } from './schemas/favorite-schema';
 
 export const favoriteWordProvider = [
   {
-    provide: 'UserModel',
+    provide: 'FavoriteWordModel',
     useFactory: (connection: Connection) =>
       connection.model('FavoriteWord', FavoriteWordSchema),
     inject: ['DATABASE_CONNECTION'],
