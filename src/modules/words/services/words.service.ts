@@ -2,17 +2,23 @@ import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
+import { Logger } from 'src/config/logger';
 
 @Injectable()
 export class WordsService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private readonly logger: Logger,
+  ) {}
 
   public async getWord(word: string): Promise<any> {
     try {
       const request = this.httpService.get(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
       );
+
       const response = await firstValueFrom(request);
+      this.logger.log('Request was success...');
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
