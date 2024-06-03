@@ -1,4 +1,13 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { FavoriteWordService } from '../service/favorite.service';
 import { AddFavoriteDTO } from '../favorite-dto';
 import { Response } from 'express';
@@ -13,7 +22,7 @@ export class FavoriteWordController {
     status: HttpStatus.CREATED,
     description: 'Add a word to favorite list',
   })
-  @Post('/favorite')
+  @Post('en/favorite')
   public async addFavorite(
     @Body() addWordDTO: AddFavoriteDTO,
     @Res() res: Response,
@@ -25,5 +34,31 @@ export class FavoriteWordController {
     return res
       .status(HttpStatus.CREATED)
       .json({ message: 'Added to favorites' });
+  }
+
+  @ApiResponse({ status: HttpStatus.OK, description: 'All favorites words' })
+  @Get('/favorite/:userId/all')
+  public async getAllFavorites(
+    @Param('userId') userId: string,
+    @Res() res: Response,
+  ) {
+    const allfavorites =
+      await this.favoriteWordService.findAllFavorites(userId);
+    return res
+      .status(HttpStatus.OK)
+      .json({ message: 'Your favorites words', favorites: allfavorites });
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Word removed sucessfully',
+  })
+  @Delete('/favorite/:wordId')
+  public async removeFavorite(
+    @Param('wordId') wordId: string,
+    @Res() res: Response,
+  ) {
+    await this.favoriteWordService.removeFavorite(wordId);
+    return res.status(HttpStatus.OK).json({ message: 'Word was removed' });
   }
 }
