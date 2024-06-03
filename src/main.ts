@@ -18,9 +18,9 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1');
 
   const config = new DocumentBuilder()
-    .setTitle('Boilerplate nest js')
-    .setDescription('Change as you want')
-    .setVersion('0.1')
+    .setTitle('Backend test- codesh')
+    .setDescription('Api dicionary')
+    .setVersion('1.0')
     .setContact(
       'Hebert santos',
       'https://www.hebertzin.com/',
