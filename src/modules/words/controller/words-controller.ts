@@ -61,6 +61,6 @@ export class WordsController {
     @Res() res: Response,
   ): Promise<Response> {
     const results = await this.wordService.findAll(page, limit);
-    return res.status(HttpStatus.OK).json({ results });
+    return res.status(HttpStatus.OK).json(results);
   }
 }
