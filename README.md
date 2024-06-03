@@ -24,5 +24,47 @@ I chose to use **Nest**, as it greatly facilitates concepts such as dependency i
 
 The biggest challenge of the project was the popular database, I had never done this before, so it was a bit complicated at first, but with a lot of research I managed to solve it and everything worked out.
 
-- 
+
+## Running aplication
+
+
+## Running Application
+
+### Step 1: Clone this repo
+
+First, clone your project repository:
+
+```bash
+git clone <URL>
+cd Dicionary-api
+```
+
+### install packages
+
+```bash
+ Dicionary-api
+
+ npm i 
+```
+
+### Running server
+
+```bash
+ Dicionary-api
+
+ npm run start:dev
+```
+
+### docker image
+
+```bash
+ Dicionary-api
+
+ dokcer componse -build
+```
+
+### Access the documentation
+
+- **GET** `/api/docs`
+
 
