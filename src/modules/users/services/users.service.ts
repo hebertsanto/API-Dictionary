@@ -1,7 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { UserDTO } from '../user-dto';
 import { Logger } from 'src/config/logger';
+import * as bcrypt from 'bcrypt';
 
 interface User extends Document {
   readonly name: string;
@@ -16,8 +21,17 @@ export class UserService {
   ) {}
 
   public async create(userDTO: UserDTO): Promise<User> {
-    const user = await this.userModel.create(userDTO);
-    this.logger.log('[UserService] : Creating user...');
-    return user;
+    try {
+      const passwordHash = await bcrypt.hash(userDTO.password, 10);
+      const user = await this.userModel.create({
+        email: userDTO.email,
+        password: passwordHash,
+      });
+
+      this.logger.log('[UserService] : Creating user...');
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException('Some error while create user');
+    }
   }
 }
