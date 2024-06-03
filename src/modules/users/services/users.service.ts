@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 interface User extends Document {
   readonly name: string;
   readonly email: string;
+  readonly pasword: string;
 }
 
 @Injectable()
@@ -33,5 +34,10 @@ export class UserService {
     } catch (error) {
       throw new InternalServerErrorException('Some error while create user');
     }
+  }
+
+  public async findByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email });
+    return user;
   }
 }
