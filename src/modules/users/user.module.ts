@@ -9,5 +9,6 @@ import { Logger } from 'src/config/logger';
   imports: [DatabaseModule],
   controllers: [UsersController],
   providers: [UserService, ...usersProvider, Logger],
+  exports: [UserService],
 })
 export class UsersModule {}
