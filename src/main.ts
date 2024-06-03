@@ -5,7 +5,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './exception/global';
 import helmet from 'helmet';
 import * as compression from 'compression';
-import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +13,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(compression());
   app.use(helmet());
-  app.use(csurf());
+
   app.setGlobalPrefix('/api/v1');
 
   const config = new DocumentBuilder()
