@@ -16,7 +16,7 @@ export class AuthController {
     description: 'Credential are invalid',
   })
   @SkipAuth()
-  @Post('login')
+  @Post('signin')
   public async signIn(@Body() signInDto: AuthDTO, @Res() res: Response) {
     const { access_token } = await this.authService.signIn(
       signInDto.email,
