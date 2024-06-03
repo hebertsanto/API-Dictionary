@@ -11,7 +11,7 @@ import * as bcrypt from 'bcrypt';
 interface User extends Document {
   readonly name: string;
   readonly email: string;
-  readonly pasword: string;
+  readonly password: string;
 }
 
 @Injectable()
@@ -24,12 +24,12 @@ export class UserService {
   public async create(userDTO: UserDTO): Promise<User> {
     try {
       const passwordHash = await bcrypt.hash(userDTO.password, 10);
+      this.logger.log('[UserService] : Creating user...');
       const user = await this.userModel.create({
+        name: userDTO.name,
         email: userDTO.email,
         password: passwordHash,
       });
-
-      this.logger.log('[UserService] : Creating user...');
       return user;
     } catch (error) {
       throw new InternalServerErrorException('Some error while create user');
