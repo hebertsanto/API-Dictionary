@@ -1,17 +1,18 @@
-import { Inject, Injectable, LoggerService } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { UserDTO } from '../user-dto';
+import { Logger } from 'src/config/logger';
 
-interface User {
-  name: string;
-  email: string;
+interface User extends Document {
+  readonly name: string;
+  readonly email: string;
 }
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('UserModel') private userModel: Model<User>,
-    private readonly logger: LoggerService,
+    private readonly logger: Logger,
   ) {}
 
   public async create(userDTO: UserDTO): Promise<User> {

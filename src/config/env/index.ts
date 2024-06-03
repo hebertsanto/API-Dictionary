@@ -11,7 +11,7 @@ const envScema = z.object({
 const _env = envScema.safeParse(process.env);
 
 if (_env.success == false) {
-  throw new Error('Error with env variables');
+  throw new Error(`Error with env variables : ${_env.error}`);
 }
 
 export const env = _env.data;
