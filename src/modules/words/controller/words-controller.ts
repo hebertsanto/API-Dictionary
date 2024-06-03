@@ -60,7 +60,7 @@ export class WordsController {
     @Query('limit') limit: number = 40,
     @Res() res: Response,
   ): Promise<Response> {
-    const { results } = await this.wordService.findAll(page, limit);
+    const results = await this.wordService.findAll(page, limit);
     return res.status(HttpStatus.OK).json(results);
   }
 }
