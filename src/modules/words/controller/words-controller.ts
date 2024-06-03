@@ -11,8 +11,9 @@ import { WordsService } from '../services/words.service';
 import { Response } from 'express';
 import { SkipAuth } from 'src/modules/auth/skip-auth.decorator';
 import { Logger } from 'src/config/logger';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Entries')
 @Controller('entries')
 export class WordsController {
   constructor(
@@ -36,7 +37,7 @@ export class WordsController {
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
+    description: 'Internal  server error',
   })
   @Post('/populate')
   public async populateDatabse(@Res() res: Response) {
@@ -48,6 +49,10 @@ export class WordsController {
     return res.status(HttpStatus.CREATED).json({ message: 'Everything ok' });
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Return words with pagination',
+  })
   @SkipAuth()
   @Get()
   async findAll(
