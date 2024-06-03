@@ -1,4 +1,12 @@
-import { Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { WordsService } from '../services/words.service';
 import { Response } from 'express';
 import { SkipAuth } from 'src/modules/auth/skip-auth.decorator';
@@ -8,7 +16,7 @@ import { ApiResponse } from '@nestjs/swagger';
 @Controller('entries')
 export class WordsController {
   constructor(
-    private wordsService: WordsService,
+    private wordService: WordsService,
     private logger: Logger,
   ) {}
 
@@ -18,7 +26,7 @@ export class WordsController {
   })
   @Get('/:word')
   public async getWord(@Param('word') word: string, @Res() res: Response) {
-    const wordFound = await this.wordsService.getWord(word);
+    const wordFound = await this.wordService.getWord(word);
     return res.status(HttpStatus.OK).json({ message: 'Ok', wordFound });
   }
 
@@ -30,14 +38,24 @@ export class WordsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  @SkipAuth()
   @Post('/populate')
   public async populateDatabse(@Res() res: Response) {
     this.logger.log('In progress...');
     console.time();
-    await this.wordsService.populateDatabase();
+    await this.wordService.populateDatabase();
     console.timeEnd();
     this.logger.log('Populated.');
     return res.status(HttpStatus.CREATED).json({ message: 'Everything ok' });
+  }
+
+  @SkipAuth()
+  @Get()
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 40,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const results = await this.wordService.findAll(page, limit);
+    return res.status(HttpStatus.OK).json({ results });
   }
 }
