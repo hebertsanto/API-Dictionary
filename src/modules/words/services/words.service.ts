@@ -61,7 +61,7 @@ export class WordsService {
     }
   }
 
-  async findAll(
+  public async findAll(
     page: number,
     limit: number,
   ): Promise<{
